@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cognix Studio — The Autonomous Multi-Agent Workstation</title>
+  <meta name="description" content="Cognix Studio Ecosystem powered by EKA AI Engine. Intelligent tool orchestration, static AST code verification, live Mermaid diagrams, and in-memory document exports.">
+  <meta name="author" content="Abhi Raj">
+  
+  <!-- OpenGraph Meta Tags -->
+  <meta property="og:title" content="Cognix Studio — Autonomous Multi-Agent Workstation">
+  <meta property="og:description" content="Empowering high-performance workflows through intelligent tool orchestration, static syntax verification, live Mermaid diagrams, and document exports.">
+  <meta property="og:url" content="https://abhiraj1121.github.io/cognix-studio/">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Mermaid.js for Live Interactive Diagrams -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+
+  <!-- Ambient Grid Overlay -->
+  <div class="bg-grid-overlay"></div>
+
+  <!-- ==========================================================================
+       1. HEADER (Floating Glass Navbar)
+       ========================================================================== -->
+  <header class="header-nav" id="top-nav">
+    <a href="#" class="nav-brand">
+      <img src="assets/cognix_logo.png" alt="Cognix Studio Logo" class="brand-logo-img">
+      <div>
+        <div class="brand-text">COGNIX STUDIO</div>
+        <div class="brand-sub">Ecosystem v2.0</div>
+      </div>
+    </a>
+
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#hero">Ecosystem</a></li>
+        <li><a href="#eka-engine">EKA AI Engine</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#tech-stack">Tech Stack</a></li>
+        <li><a href="#developer">Developer</a></li>
+      </ul>
+    </nav>
+
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <a href="https://abhiraj1121.github.io/cognix" target="_blank" rel="noopener noreferrer" class="btn btn-primary nav-cta-btn">
+        Launch EKA Engine ⚡
+      </a>
+      <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Toggle Navigation">☰</button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav-drawer" id="mobile-drawer">
+    <a href="#hero">Ecosystem</a>
+    <a href="#eka-engine">EKA AI Engine</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#tech-stack">Tech Stack</a>
+    <a href="#developer">Developer (Abhiraj)</a>
+    <a href="https://abhiraj1121.github.io/cognix" target="_blank" class="btn btn-primary" style="margin-top: 10px;">
+      Launch EKA Engine ⚡
+    </a>
+  </div>
+
+  <!-- ==========================================================================
+       2. HERO SECTION
+       ========================================================================== -->
+  <section class="section hero-section" id="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div style="margin-bottom: 20px;">
+          <img src="assets/cognix_logo.png" alt="Cognix Studio Emblem" style="width: 72px; height: 72px; border-radius: 16px; border: 1px solid var(--border-cyan-glow); box-shadow: 0 0 35px rgba(0, 240, 255, 0.4); animation: floatGlow 6s ease-in-out infinite alternate;">
+        </div>
+
+        <div class="badge-tag">
+          <span class="pulse-dot"></span>
+          COGNIX STUDIO ECOSYSTEM v2.0
+        </div>
+
+        <h1 class="hero-title text-gradient">
+          The Autonomous Multi-Agent Workstation
+        </h1>
+
+        <!-- Typewriter & Deleting Animation Badge -->
+        <div style="margin-bottom: 24px; min-height: 48px;">
+          <div class="typewriter-container">
+            <span style="color: var(--text-muted); font-size: 0.9rem;">&gt;&nbsp;</span>
+            <span id="typewriter-text"></span>
+            <span class="typewriter-cursor">|</span>
+          </div>
+        </div>
+
+        <p class="hero-subtitle">
+          Empowering high-performance workflows through intelligent tool orchestration, static syntax verification, live Mermaid diagrams, and in-memory document exports.
+        </p>
+
+        <div class="hero-actions">
+          <a href="https://abhiraj1121.github.io/cognix" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            Open EKA AI Workspace ⚡
+          </a>
+          <a href="#eka-engine" class="btn btn-secondary">
+            View Technical Docs ↓
+          </a>
+        </div>
+      </div>
+
+      <!-- Hero Video Showcase -->
+      <div class="video-showcase-container">
+        <div class="video-glass-frame">
+          <div class="video-wrapper">
+            <video id="hero-video" autoplay loop muted playsinline poster="">
+              <source src="assets/cognix_intro.mp4" type="video/mp4">
+              Your browser does not support video playback.
+            </video>
+
+            <!-- Video Overlay Bar -->
+            <div class="video-overlay-controls">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <button class="video-control-btn" id="video-play-btn" title="Play/Pause">⏸</button>
+                <button class="video-control-btn" id="video-mute-btn" title="Mute/Unmute">🔇</button>
+                <span class="badge-tag" style="font-size: 0.68rem; padding: 3px 8px;">COGNIX REVEAL HD</span>
+              </div>
+              <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--cyan-electric);">
+                EKA Core v2.0 • Live Stream
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       3. "POWERED BY EKA AI" ENGINE DEEP DIVE (BENTO GRID)
+       ========================================================================== -->
+  <section class="section" id="eka-engine">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge-tag">
+          <span class="pulse-dot"></span>
+          CORE AI ENGINE ARCHITECTURE
+        </div>
+        <h2 class="section-title text-gradient">
+          Engineered with EKA — Agentic Tool Orchestrator
+        </h2>
+        <p class="section-subtitle">
+          EKA combines an autonomous router with dedicated task models to route natural language requests directly to specialized execution tools without rigid slash commands.
+        </p>
+      </div>
+
+      <!-- Bento Grid Layout -->
+      <div class="bento-grid">
+        
+        <!-- Card 1: Autonomous Intent Router (Col 8) -->
+        <div class="glass-card bento-card bento-col-8">
+          <div>
+            <div class="card-icon">🤖</div>
+            <h3 class="card-title">
+              Autonomous Intent Router
+              <span class="card-meta-tag">nvidia/nemotron-3-super-120b</span>
+            </h3>
+            <p class="card-desc">
+              Uses function-calling logic to automatically detect user intent in plain English or Hindi. Routes queries to code generators, diagram renders, or document builders seamlessly — with fail-safe fallback to standard conversational AI.
+            </p>
+
+            <!-- Interactive Router Simulator -->
+            <div class="intent-sim-box">
+              <div style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 8px;">TRY INTENT ROUTING PROMPTS:</div>
+              <div>
+                <span class="sim-prompt-btn" onclick="simulateIntent('Draw me a diagram of a login flow', 'Mermaid.js Generator', 'Nemotron-3')">"Draw me a login flow"</span>
+                <span class="sim-prompt-btn" onclick="simulateIntent('Write a Python function for Fibonacci', 'Laguna-XS Code Writer', 'Nemotron-3')">"Write Python Fibonacci"</span>
+                <span class="sim-prompt-btn" onclick="simulateIntent('Generate a PDF report on renewable energy', 'ReportLab PDF Exporter', 'Nemotron-3')">"Generate PDF report"</span>
+              </div>
+              <div class="sim-result-status" id="sim-result-container">
+                <span id="sim-active-prompt">"Draw me a diagram of a login flow"</span>
+                <div style="display: flex; gap: 8px;">
+                  <span id="sim-target-tool" class="card-meta-tag">Tool: Mermaid.js Generator</span>
+                  <span id="sim-active-model" class="card-meta-tag" style="border-color: rgba(59, 130, 246, 0.3); color: #93C5FD;">Router: Nemotron-3</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Verified Code Writer (Col 4) -->
+        <div class="glass-card bento-card bento-col-4">
+          <div>
+            <div class="card-icon">💻</div>
+            <h3 class="card-title">
+              Verified Code Writer
+            </h3>
+            <p class="card-desc">
+              Code generation via <code style="color: var(--cyan-electric);">poolside/laguna-xs-2.1</code> with static AST parsing (<code style="color: #A5F3FC;">ast.parse</code>) for zero server-side execution risk.
+            </p>
+
+            <div class="code-preview-box">
+              <div style="color: #64748B;"># Python Code AST Check</div>
+              <div>def binary_search(arr, target):</div>
+              <div>&nbsp;&nbsp;left, right = 0, len(arr)-1</div>
+              <div>&nbsp;&nbsp;return -1</div>
+              <div class="ast-pass-badge">✓ AST Syntax Check: Clean Pass</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Live Diagram Generator (Col 8) -->
+        <div class="glass-card bento-card bento-col-8">
+          <div>
+            <div class="card-icon">📊</div>
+            <h3 class="card-title">
+              Live Diagram Generator
+              <span class="card-meta-tag">Mermaid.js SVGs</span>
+            </h3>
+            <p class="card-desc">
+              Converts natural language descriptions into interactive SVG diagrams live inside the browser tab. Supports flowcharts, sequence diagrams, and entity-relationship models.
+            </p>
+
+            <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+              <button class="sim-prompt-btn" onclick="renderDiagramSample('flowchart')">Flowchart</button>
+              <button class="sim-prompt-btn" onclick="renderDiagramSample('sequence')">Sequence Diagram</button>
+              <button class="sim-prompt-btn" onclick="renderDiagramSample('er')">ER Diagram</button>
+            </div>
+
+            <div class="mermaid-live-container" id="mermaid-output-container">
+              <div class="mermaid">
+                graph LR
+                  A[Natural Language Input] --> B[EKA Router]
+                  B --> C[Mermaid Syntax Generator]
+                  C --> D[Client SVG Render]
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: In-Memory Document Exporter (Col 4) -->
+        <div class="glass-card bento-card bento-col-4">
+          <div>
+            <div class="card-icon">📄</div>
+            <h3 class="card-title">In-Memory Document Exporter</h3>
+            <p class="card-desc">
+              Generates reports, resumes, proposals, and code documentation on the fly with multi-format export capabilities.
+            </p>
+
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 15px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                <span style="font-size: 0.85rem;">PDF Export</span>
+                <span class="card-meta-tag" style="border-color: #EF4444; color: #FCA5A5;">reportlab</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                <span style="font-size: 0.85rem;">DOCX Document</span>
+                <span class="card-meta-tag" style="border-color: #3B82F6; color: #93C5FD;">python-docx</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                <span style="font-size: 0.85rem;">Markdown File</span>
+                <span class="card-meta-tag">marked.js</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5: Bilingual Voice I/O (Col 6) -->
+        <div class="glass-card bento-card bento-col-6">
+          <div>
+            <div class="card-icon">🎤</div>
+            <h3 class="card-title">Bilingual Voice I/O</h3>
+            <p class="card-desc">
+              Real-time Web Speech recognition and SpeechSynthesis API voice output supporting both <strong>English</strong> and <strong>Hindi</strong> with automatic language detection.
+            </p>
+
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+              <button class="sim-prompt-btn" onclick="speakSample('en')">🔊 Listen English Sample</button>
+              <button class="sim-prompt-btn" onclick="speakSample('hi')">🔊 हिंदी ऑडियो सुनें</button>
+            </div>
+
+            <div class="voice-wave-box" id="voice-wave-visualizer">
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+              <div class="wave-bar"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6: BYOK Architecture (Col 6) -->
+        <div class="glass-card bento-card bento-col-6">
+          <div>
+            <div class="card-icon">🔑</div>
+            <h3 class="card-title">Bring Your Own Key (BYOK)</h3>
+            <p class="card-desc">
+              Zero-trust architecture. OpenRouter API keys live exclusively in your browser's <code style="color: var(--cyan-electric);">localStorage</code>, forwarded as authorization headers directly without server logging.
+            </p>
+
+            <div style="background: rgba(3,7,18,0.8); padding: 14px; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.08); margin-top: 15px; font-family: var(--font-mono); font-size: 0.8rem;">
+              <div style="display: flex; justify-content: space-between; color: var(--text-muted); margin-bottom: 6px;">
+                <span>SECURITY LEVEL</span>
+                <span style="color: #34D399;">CLIENT-SIDE ENCRYPTED</span>
+              </div>
+              <div style="color: var(--cyan-electric);">Header: Authorization -> Bearer sk-or-v1-****************</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       4. TECHNICAL STACK & SYSTEM ARCHITECTURE
+       ========================================================================== -->
+  <section class="section" id="architecture">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge-tag">
+          <span class="pulse-dot"></span>
+          INFRASTRUCTURE & TECH STACK
+        </div>
+        <h2 class="section-title text-gradient">
+          Built for Speed, Resilience & Privacy
+        </h2>
+        <p class="section-subtitle">
+          Discover the high-performance technologies powering Cognix Studio and the EKA AI Agent Engine.
+        </p>
+      </div>
+
+      <!-- System Architecture Flow Diagram Card -->
+      <div class="arch-diagram-card">
+        <h3 style="font-size: 1.3rem; color: var(--cyan-electric); margin-bottom: 8px;">System Execution Flow</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">From user speech or typed text to verified tool execution.</p>
+
+        <div class="arch-flow-grid">
+          <div class="arch-node">
+            <div class="arch-node-title">1. Client Layer</div>
+            <div class="arch-node-desc">Vanilla JS • Web Speech • Glass UI</div>
+          </div>
+
+          <div class="arch-node">
+            <div class="arch-node-title">2. Intent Router</div>
+            <div class="arch-node-desc">nvidia/nemotron-3-super-120b</div>
+          </div>
+
+          <div class="arch-node">
+            <div class="arch-node-title">3. Tool Execution</div>
+            <div class="arch-node-desc">Laguna-XS • Mermaid • ReportLab</div>
+          </div>
+
+          <div class="arch-node">
+            <div class="arch-node-title">4. Verified Output</div>
+            <div class="arch-node-desc">AST Validated • SVG Render • File Export</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tech Stack Breakdown Grid -->
+      <div class="tech-grid" id="tech-stack">
+        
+        <!-- Category 1: Backend & Security -->
+        <div class="glass-card tech-category-card">
+          <h4 class="tech-category-title">⚙ Backend & Security</h4>
+          <div class="tech-pills">
+            <span class="tech-pill">Python 3.11</span>
+            <span class="tech-pill">Flask</span>
+            <span class="tech-pill">Flask-CORS</span>
+            <span class="tech-pill">SQLite3</span>
+            <span class="tech-pill">PBKDF2-HMAC-SHA256</span>
+            <span class="tech-pill">260k Auth Iterations</span>
+          </div>
+        </div>
+
+        <!-- Category 2: AI Core Models -->
+        <div class="glass-card tech-category-card">
+          <h4 class="tech-category-title">🧠 AI Core Models</h4>
+          <div class="tech-pills">
+            <span class="tech-pill">OpenRouter API</span>
+            <span class="tech-pill">Nemotron-3 (Router)</span>
+            <span class="tech-pill">Laguna-XS 2.1 (Code)</span>
+            <span class="tech-pill">Gemma-4 26B (Vision)</span>
+            <span class="tech-pill">Wikipedia REST API</span>
+          </div>
+        </div>
+
+        <!-- Category 3: Frontend & Rendering -->
+        <div class="glass-card tech-category-card">
+          <h4 class="tech-category-title">🎨 Frontend & Rendering</h4>
+          <div class="tech-pills">
+            <span class="tech-pill">Vanilla JS (ES6+)</span>
+            <span class="tech-pill">Web Speech API</span>
+            <span class="tech-pill">SpeechSynthesis</span>
+            <span class="tech-pill">Mermaid.js</span>
+            <span class="tech-pill">Marked.js</span>
+            <span class="tech-pill">DiceBear Avatars</span>
+          </div>
+        </div>
+
+        <!-- Category 4: Document Engine -->
+        <div class="glass-card tech-category-card">
+          <h4 class="tech-category-title">📄 Document Engine</h4>
+          <div class="tech-pills">
+            <span class="tech-pill">python-docx</span>
+            <span class="tech-pill">reportlab</span>
+            <span class="tech-pill">ast.parse</span>
+            <span class="tech-pill">Markdown Exporter</span>
+            <span class="tech-pill">Graceful Fallback</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       5. INTERACTIVE TERMINAL & SLASH COMMAND SANDBOX
+       ========================================================================== -->
+  <section class="section" id="terminal-sandbox">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge-tag">
+          <span class="pulse-dot"></span>
+          INTERACTIVE COMMAND CONSOLE
+        </div>
+        <h2 class="section-title text-gradient">Test EKA Commands Live</h2>
+        <p class="section-subtitle">Type slash commands or ask in plain English to test intent auto-routing.</p>
+      </div>
+
+      <div class="terminal-card">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <div class="terminal-title">eka-agent-orchestrator --v2.0</div>
+          <div></div>
+        </div>
+
+        <div class="terminal-body" id="term-output-body">
+          <div class="term-output">EKA Multi-Agent Workstation initialized. All systems nominal.</div>
+          <div class="term-output" style="color: var(--cyan-electric);">Try clicking sample commands below or type your own prompt:</div>
+          <div style="margin-bottom: 16px;">
+            <button class="sim-prompt-btn" onclick="runSampleTermCmd('/avatar Nova pixel-art')">/avatar Nova pixel-art</button>
+            <button class="sim-prompt-btn" onclick="runSampleTermCmd('/code python write fibonacci sequence')">/code python fibonacci</button>
+            <button class="sim-prompt-btn" onclick="runSampleTermCmd('/diagram sequence diagram for checkout flow')">/diagram checkout flow</button>
+            <button class="sim-prompt-btn" onclick="runSampleTermCmd('/doc pdf quarterly report')">/doc pdf quarterly report</button>
+          </div>
+          
+          <div class="term-input-line">
+            <span class="term-prompt">eka@cognix-studio:~$</span>
+            <input type="text" class="term-input" id="term-user-input" placeholder="Type a prompt or /slash command..." autocomplete="off">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       6. DEVELOPER & CREATOR PROFILE (ABHI RAJ)
+       ========================================================================== -->
+  <section class="section dev-profile-section" id="developer">
+    <div class="container">
+      <div class="glass-card dev-profile-card">
+        <div class="dev-avatar-wrapper">
+          <img src="assets/abhi_raj.jpg" alt="Abhi Raj - Founder of Cognix Studio" class="dev-avatar-img">
+        </div>
+
+        <div>
+          <div class="dev-info-tag">ARCHITECT & DEVELOPER</div>
+          <h2 class="dev-name text-gradient">Abhi Raj</h2>
+          <div class="dev-role-badge">Founder of Cognix Studio • Developer of EKA</div>
+
+          <p class="dev-bio">
+            Full-stack developer and AI systems architect focused on building intuitive agentic interfaces, resilient backends, and futuristic 3D web applications. Started building apps & websites at age 17, developer of EKA and founder of Cognix Studio. Built with curiosity, deployed with confidence.
+          </p>
+
+          <div class="dev-links">
+            <a href="https://github.com/Abhiraj1121" target="_blank" rel="noopener noreferrer" class="dev-link-btn">
+              <span>💻</span> GitHub: @Abhiraj1121
+            </a>
+            <a href="https://abhiraj1121.github.io" target="_blank" rel="noopener noreferrer" class="dev-link-btn">
+              <span>🌐</span> Portfolio: abhiraj1121.github.io
+            </a>
+            <a href="https://abhiraj1121.github.io/ai-tc/" target="_blank" rel="noopener noreferrer" class="dev-link-btn">
+              <span>📜</span> Legal & Terms
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       7. FOOTER
+       ========================================================================== -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-left">
+        <div><strong>Cognix Studio © 2026</strong> | Built with precision by <strong>Abhi Raj</strong></div>
+        <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">Empowering next-generation autonomous AI workflows.</div>
+      </div>
+
+      <ul class="footer-links">
+        <li><a href="https://abhiraj1121.github.io/cognix" target="_blank">/cognix</a></li>
+        <li><a href="https://abhiraj1121.github.io/cognix-studio" target="_blank">/cognix-studio</a></li>
+        <li><a href="https://github.com/Abhiraj1121" target="_blank">GitHub Repo</a></li>
+        <li><a href="https://abhiraj1121.github.io/ai-tc/" target="_blank">Terms & Privacy</a></li>
+      </ul>
+
+      <div class="footer-status">
+        <span class="pulse-dot-green"></span>
+        All EKA Agents Operational 🟢
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script -->
+  <script src="js/main.js"></script>
+</body>
+</html>
