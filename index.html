@@ -24,8 +24,33 @@
 </head>
 <body>
 
+  <!-- ==========================================================================
+       0. 3D LAUNCH INTRO OVERLAY — plays once on load
+       ========================================================================== -->
+  <div class="launch-overlay" id="launch-overlay" role="presentation" aria-hidden="true">
+    <canvas id="launch-canvas"></canvas>
+    <div class="launch-logo-wrap" id="launch-logo-wrap">
+      <img src="assets/cognix_logo.png" alt="" class="launch-logo-img" id="launch-logo-img">
+      <div class="launch-logo-ring"></div>
+    </div>
+    <div class="launch-overlay-ui">
+      <div class="launch-progress-track">
+        <div class="launch-progress-fill" id="launch-progress-fill"></div>
+      </div>
+      <div class="launch-overlay-hint">EKA CORE INITIALIZING…</div>
+      <button class="launch-skip-btn" id="launch-skip-btn" type="button">Skip ⏭</button>
+    </div>
+  </div>
+
   <!-- Ambient Grid Overlay -->
   <div class="bg-grid-overlay"></div>
+
+  <!-- Floating Ambient Glass Orbs -->
+  <div class="ambient-orbs" aria-hidden="true">
+    <div class="ambient-orb ambient-orb-1"></div>
+    <div class="ambient-orb ambient-orb-2"></div>
+    <div class="ambient-orb ambient-orb-3"></div>
+  </div>
 
   <!-- ==========================================================================
        1. HEADER (Floating Glass Navbar)
@@ -50,7 +75,7 @@
     </nav>
 
     <div style="display: flex; align-items: center; gap: 12px;">
-      <a href="https://abhiraj1121.github.io/cognix" target="_blank" rel="noopener noreferrer" class="btn btn-primary nav-cta-btn">
+      <a href="https://abhiraj1121.github.io/cognix" target="_blank" rel="noopener noreferrer" class="btn btn-primary nav-cta-btn btn-magnetic">
         Launch EKA Engine ⚡
       </a>
       <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Toggle Navigation">☰</button>
@@ -72,11 +97,14 @@
   <!-- ==========================================================================
        2. HERO SECTION
        ========================================================================== -->
-  <section class="section hero-section" id="hero">
+  <section class="section hero-section launch-init" id="hero">
     <div class="container">
       <div class="hero-content">
-        <div style="margin-bottom: 20px;">
-          <img src="assets/cognix_logo.png" alt="Cognix Studio Emblem" style="width: 72px; height: 72px; border-radius: 16px; border: 1px solid var(--border-cyan-glow); box-shadow: 0 0 35px rgba(0, 240, 255, 0.4); animation: floatGlow 6s ease-in-out infinite alternate;">
+        <!-- Interactive 3D Studio Core -->
+        <div class="core-stage" id="core-stage" aria-hidden="true">
+          <div class="core-stage-glow"></div>
+          <canvas id="core-canvas"></canvas>
+          <div class="core-stage-label">EKA CORE // STANDBY</div>
         </div>
 
         <div class="badge-tag">
@@ -102,10 +130,10 @@
         </p>
 
         <div class="hero-actions">
-          <a href="https://abhiraj1121.github.io/cognix" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          <a href="https://abhiraj1121.github.io/cognix" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-magnetic">
             Open EKA AI Workspace ⚡
           </a>
-          <a href="#eka-engine" class="btn btn-secondary">
+          <a href="#eka-engine" class="btn btn-secondary btn-magnetic">
             View Technical Docs ↓
           </a>
         </div>
@@ -142,7 +170,7 @@
        ========================================================================== -->
   <section class="section" id="eka-engine">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal-on-scroll">
         <div class="badge-tag">
           <span class="pulse-dot"></span>
           CORE AI ENGINE ARCHITECTURE
@@ -156,7 +184,7 @@
       </div>
 
       <!-- Bento Grid Layout -->
-      <div class="bento-grid">
+      <div class="bento-grid reveal-on-scroll">
         
         <!-- Card 1: Autonomous Intent Router (Col 8) -->
         <div class="glass-card bento-card bento-col-8">
@@ -318,7 +346,7 @@
        ========================================================================== -->
   <section class="section" id="architecture">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal-on-scroll">
         <div class="badge-tag">
           <span class="pulse-dot"></span>
           INFRASTRUCTURE & TECH STACK
@@ -332,7 +360,7 @@
       </div>
 
       <!-- System Architecture Flow Diagram Card -->
-      <div class="arch-diagram-card">
+      <div class="arch-diagram-card reveal-on-scroll">
         <h3 style="font-size: 1.3rem; color: var(--cyan-electric); margin-bottom: 8px;">System Execution Flow</h3>
         <p style="color: var(--text-secondary); font-size: 0.9rem;">From user speech or typed text to verified tool execution.</p>
 
@@ -360,7 +388,7 @@
       </div>
 
       <!-- Tech Stack Breakdown Grid -->
-      <div class="tech-grid" id="tech-stack">
+      <div class="tech-grid reveal-on-scroll" id="tech-stack">
         
         <!-- Category 1: Backend & Security -->
         <div class="glass-card tech-category-card">
@@ -421,7 +449,7 @@
        ========================================================================== -->
   <section class="section" id="terminal-sandbox">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal-on-scroll">
         <div class="badge-tag">
           <span class="pulse-dot"></span>
           INTERACTIVE COMMAND CONSOLE
@@ -430,7 +458,7 @@
         <p class="section-subtitle">Type slash commands or ask in plain English to test intent auto-routing.</p>
       </div>
 
-      <div class="terminal-card">
+      <div class="terminal-card reveal-on-scroll">
         <div class="terminal-header">
           <div class="terminal-dots">
             <span class="dot dot-red"></span>
@@ -465,7 +493,7 @@
        ========================================================================== -->
   <section class="section dev-profile-section" id="developer">
     <div class="container">
-      <div class="glass-card dev-profile-card">
+      <div class="glass-card dev-profile-card reveal-on-scroll">
         <div class="dev-avatar-wrapper">
           <img src="assets/abhi_raj.jpg" alt="Abhi Raj - Founder of Cognix Studio" class="dev-avatar-img">
         </div>
