@@ -104,7 +104,7 @@ Open **`http://localhost:8080`** in your browser.
 
 - **GitHub:** [@Abhiraj1121](https://github.com/Abhiraj1121)
 - **Portfolio:** [abhiraj1121.github.io](https://abhiraj1121.github.io)
-- **EKA Workspace:** [abhiraj1121.github.io/cognix](https://abhiraj1121.github.io/cognix)
+- **EKA Workspace:** [abhiraj1121.github.io/cognix](https://abhiraj1121.github.io/ai)
 - **Legal & Terms:** [abhiraj1121.github.io/ai-tc/](https://abhiraj1121.github.io/ai-tc/)
 
 ---
