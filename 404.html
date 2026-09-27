@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 | Node Not Found — Abhi Raj</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #030712;
+            --surface: rgba(15, 23, 42, 0.55);
+            --surface-border: rgba(148, 163, 184, 0.12);
+            --text: #f1f5f9;
+            --text-dim: #94a3b8;
+            --accent: #3b82f6;
+            --accent-soft: rgba(59, 130, 246, 0.35);
+            --accent-bright: #60a5fa;
+            --green: #10b981;
+            --red: #ef4444;
+            --font-ui: 'Inter', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-ui);
+            display: grid;
+            place-items: center;
+            position: relative;
+            perspective: 1200px;
+        }
+
+        /* Ambient glow orbs */
+        .ambient {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+            animation: floatOrb 18s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            top: -120px;
+            left: -80px;
+        }
+
+        .orb-2 {
+            width: 360px;
+            height: 360px;
+            background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
+            bottom: -100px;
+            right: -60px;
+            animation-delay: -7s;
+        }
+
+        .orb-3 {
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
+            top: 40%;
+            left: 55%;
+            animation-delay: -12s;
+            opacity: 0.2;
+        }
+
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -40px) scale(1.05); }
+            66% { transform: translate(-20px, 25px) scale(0.95); }
+        }
+
+        /* Particle canvas */
+        #network {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            opacity: 0.85;
+        }
+
+        /* 3D Scene container */
+        .scene {
+            position: relative;
+            z-index: 2;
+            width: min(92vw, 680px);
+            transform-style: preserve-3d;
+            transition: transform 0.15s ease-out;
+        }
+
+        /* Glass card with depth */
+        .card {
+            position: relative;
+            padding: 3.25rem 2.75rem;
+            background: var(--surface);
+            backdrop-filter: blur(24px) saturate(140%);
+            -webkit-backdrop-filter: blur(24px) saturate(140%);
+            border: 1px solid var(--surface-border);
+            border-radius: 28px;
+            box-shadow:
+                0 25px 50px -12px rgba(0, 0, 0, 0.65),
+                0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+                0 1px 0 rgba(255, 255, 255, 0.08) inset;
+            text-align: center;
+            transform-style: preserve-3d;
+            animation: cardEnter 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+
+        @keyframes cardEnter {
+            from {
+                opacity: 0;
+                transform: translateY(40px) rotateX(8deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
+        }
+
+        /* Floating 3D error code */
+        .error-code {
+            position: relative;
+            font-family: var(--font-mono);
+            font-size: clamp(5.5rem, 14vw, 8.5rem);
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -0.06em;
+            margin-bottom: 0.75rem;
+            transform-style: preserve-3d;
+            animation: float3d 6s ease-in-out infinite;
+        }
+
+        .error-code span {
+            display: inline-block;
+            background: linear-gradient(145deg, #ffffff 10%, #94a3b8 90%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 60px var(--accent-soft);
+            position: relative;
+        }
+
+        /* Depth layers behind the numbers */
+        .error-code::before,
+        .error-code::after {
+            content: '404';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            letter-spacing: -0.06em;
+            pointer-events: none;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .error-code::before {
+            transform: translateZ(-18px) scale(1.02);
+            background: linear-gradient(145deg, rgba(59, 130, 246, 0.35), rgba(139, 92, 246, 0.25));
+            -webkit-background-clip: text;
+            background-clip: text;
+            filter: blur(1px);
+            opacity: 0.7;
+        }
+
+        .error-code::after {
+            transform: translateZ(-36px) scale(1.04);
+            background: linear-gradient(145deg, rgba(59, 130, 246, 0.2), transparent);
+            -webkit-background-clip: text;
+            background-clip: text;
+            filter: blur(2px);
+            opacity: 0.4;
+        }
+
+        @keyframes float3d {
+            0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+            50% { transform: translateY(-10px) rotateX(2deg) rotateY(-1.5deg); }
+        }
+
+        h2 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: #e2e8f0;
+            margin-bottom: 0.65rem;
+        }
+
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 1.02rem;
+            line-height: 1.65;
+            max-width: 440px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Terminal */
+        .terminal {
+            background: rgba(2, 6, 23, 0.75);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 14px;
+            padding: 1.15rem 1.3rem;
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            text-align: left;
+            margin-bottom: 2.25rem;
+            min-height: 118px;
+            box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.45);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terminal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.4), transparent);
+        }
+
+        .terminal-line {
+            margin-bottom: 0.38rem;
+            color: var(--text-dim);
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .prompt {
+            color: var(--green);
+            margin-right: 0.45rem;
+        }
+
+        .err {
+            color: var(--red);
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 7px;
+            height: 14px;
+            background: var(--text);
+            vertical-align: middle;
+            margin-left: 2px;
+            animation: blink 1.05s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Actions */
+        .actions {
+            display: flex;
+            gap: 0.9rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 0.85rem 1.7rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.92rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn svg {
+            flex-shrink: 0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: #fff;
+            border: 1px solid transparent;
+            box-shadow: 0 0 24px var(--accent-soft), 0 4px 12px rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 36px rgba(59, 130, 246, 0.55), 0 8px 20px rgba(37, 99, 235, 0.35);
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.22);
+            transform: translateY(-3px);
+        }
+
+        /* Status badge */
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--text-dim);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin-bottom: 1.4rem;
+            padding: 0.3rem 0.75rem;
+            border-radius: 999px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--red);
+            box-shadow: 0 0 8px var(--red);
+            animation: pulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.85); }
+        }
+
+        /* Bot mascot */
+        .bot-wrap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: -0.5rem;
+        }
+
+        .bot {
+            width: 150px;
+            height: 130px;
+            filter: drop-shadow(0 12px 24px rgba(59,130,246,0.3));
+        }
+
+        .bot-head {
+            animation: sadNod 4.5s ease-in-out infinite;
+            transform-origin: 80px 60px;
+        }
+
+        @keyframes sadNod {
+            0%, 100% { transform: rotate(0deg) translateY(0); }
+            50% { transform: rotate(2deg) translateY(2px); }
+        }
+
+        .bot-eye {
+            animation: botBlink 3.6s ease-in-out infinite;
+            transform-origin: center;
+        }
+
+        @keyframes botBlink {
+            0%, 90%, 100% { transform: scaleY(1); }
+            95% { transform: scaleY(0.1); }
+        }
+
+        .plug-spark {
+            animation: sparkFlicker 1.5s ease-in-out infinite;
+        }
+
+        @keyframes sparkFlicker {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 0.15; }
+        }
+
+        .bot-bubble {
+            font-family: var(--font-mono);
+            font-size: 0.66rem;
+            font-weight: 600;
+            fill: var(--text);
+        }
+
+        .tear {
+            animation: tearDrop 3.2s ease-in infinite;
+        }
+
+        @keyframes tearDrop {
+            0% { transform: translateY(0); opacity: 0; }
+            10% { opacity: 1; }
+            60% { transform: translateY(10px); opacity: 0.8; }
+            100% { transform: translateY(14px); opacity: 0; }
+        }
+
+        /* Interactive reconnect prompt + plugs */
+        .reconnect-hint {
+            text-align: center;
+            font-size: 0.72rem;
+            color: var(--accent-bright);
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            margin: -0.2rem 0 0.6rem;
+            opacity: 0.85;
+            animation: hintPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes hintPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        #plugMale, #plugFemale {
+            cursor: pointer;
+            transition: filter 0.2s ease;
+        }
+
+        #plugMale:hover, #plugFemale:hover {
+            filter: drop-shadow(0 0 6px var(--accent-bright));
+        }
+
+        .bot.is-fixing #plugMale {
+            animation: pullTogetherL 0.7s ease-in-out forwards;
+        }
+        .bot.is-fixing #plugFemale {
+            animation: pullTogetherR 0.7s ease-in-out forwards;
+        }
+        .bot.is-fixing .plug-spark {
+            animation: sparkBurst 0.7s ease-out forwards;
+        }
+        .bot.is-fixed .bot-head {
+            animation: happyBounce 0.6s ease-out forwards;
+        }
+        .bot.is-fixed .sad-face { opacity: 0; }
+        .bot.is-fixed .happy-face { opacity: 1; }
+
+        @keyframes pullTogetherL {
+            to { transform: translate(24px, 0) rotate(0deg); }
+        }
+        @keyframes pullTogetherR {
+            to { transform: translate(-24px, 0) rotate(0deg); }
+        }
+        @keyframes sparkBurst {
+            0% { opacity: 0.9; }
+            40% { opacity: 1; filter: drop-shadow(0 0 6px #4ade80); stroke: #4ade80; }
+            100% { opacity: 0; }
+        }
+        @keyframes happyBounce {
+            0% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        .happy-face { opacity: 0; transition: opacity 0.3s ease; }
+        .sad-face { transition: opacity 0.3s ease; }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .card {
+                padding: 2.25rem 1.5rem;
+                border-radius: 22px;
+            }
+
+            .error-code {
+                font-size: 5rem;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .terminal {
+                font-size: 0.75rem;
+                min-height: 110px;
+            }
+
+            .bot { width: 100px; height: 92px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <canvas id="network"></canvas>
+
+    <div class="scene" id="scene">
+        <div class="card" id="card">
+            <div class="bot-wrap">
+                <svg class="bot" id="bot" viewBox="0 0 160 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- speech bubble -->
+                    <rect x="86" y="4" width="70" height="24" rx="8" fill="rgba(15,23,42,0.85)" stroke="rgba(148,163,184,0.25)"/>
+                    <polygon points="96,28 90,36 100,34" fill="rgba(15,23,42,0.85)"/>
+                    <text class="bot-bubble" id="botText" x="121" y="19" text-anchor="middle">page not found...</text>
+
+                    <g class="bot-head">
+                        <!-- antenna, drooping -->
+                        <line x1="70" y1="42" x2="64" y2="50" stroke="#475569" stroke-width="2.5"/>
+                        <circle cx="63" cy="51" r="3.5" fill="#334155"/>
+
+                        <!-- head, tilted down -->
+                        <rect x="46" y="48" width="52" height="38" rx="13" fill="url(#botGrad)" stroke="rgba(148,163,184,0.3)"/>
+
+                        <g class="sad-face">
+                            <path d="M58 66q4-4 10 0" stroke="#94a3b8" stroke-width="2.3" stroke-linecap="round" fill="none" class="bot-eye"/>
+                            <path d="M80 66q4-4 10 0" stroke="#94a3b8" stroke-width="2.3" stroke-linecap="round" fill="none" class="bot-eye"/>
+                            <circle class="tear" cx="60" cy="72" r="2" fill="#60a5fa"/>
+                            <path d="M62 79q10-6 20 0" stroke="#64748b" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+                        </g>
+
+                        <g class="happy-face">
+                            <path d="M58 68q4 4 10 0" stroke="#4ade80" stroke-width="2.3" stroke-linecap="round" fill="none"/>
+                            <path d="M80 68q4 4 10 0" stroke="#4ade80" stroke-width="2.3" stroke-linecap="round" fill="none"/>
+                            <path d="M62 77q10 8 20 0" stroke="#4ade80" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+                        </g>
+                    </g>
+
+                    <!-- body, slumped, sitting -->
+                    <rect x="40" y="86" width="60" height="32" rx="12" fill="url(#botGrad2)" stroke="rgba(148,163,184,0.3)"/>
+
+                    <!-- bent legs, sitting on floor -->
+                    <path d="M46 116q2 14 -4 20h16q4-10 2-20" fill="#1e293b" stroke="#334155"/>
+                    <path d="M94 116q-2 14 4 20H82q-4-10-2-20" fill="#1e293b" stroke="#334155"/>
+                    <rect x="34" y="132" width="20" height="8" rx="3" fill="#334155"/>
+                    <rect x="86" y="132" width="20" height="8" rx="3" fill="#334155"/>
+
+                    <!-- arms drooping down holding plug halves together, unconnected -->
+                    <path d="M40 96q-10 8 -8 24" stroke="#334155" stroke-width="7" stroke-linecap="round" fill="none"/>
+                    <path d="M100 96q10 8 6 24" stroke="#334155" stroke-width="7" stroke-linecap="round" fill="none"/>
+
+                    <!-- male plug in left hand -->
+                    <g id="plugMale" transform="translate(20,118) rotate(-6)">
+                        <rect x="0" y="0" width="20" height="10" rx="3" fill="#3b82f6"/>
+                        <line x1="4" y1="0" x2="4" y2="-7" stroke="#93c5fd" stroke-width="2.3" stroke-linecap="round"/>
+                        <line x1="11" y1="0" x2="11" y2="-7" stroke="#93c5fd" stroke-width="2.3" stroke-linecap="round"/>
+                    </g>
+
+                    <!-- female socket in right hand -->
+                    <g id="plugFemale" transform="translate(96,118) rotate(6)">
+                        <rect x="0" y="0" width="20" height="13" rx="4" fill="#1e293b" stroke="#475569"/>
+                        <circle cx="6" cy="6.5" r="1.5" fill="#0f172a"/>
+                        <circle cx="14" cy="6.5" r="1.5" fill="#0f172a"/>
+                    </g>
+
+                    <!-- disconnect gap sparks between the two halves -->
+                    <path d="M44 122h5M53 122h5" stroke="#ef4444" class="plug-spark" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M78 122h5M87 122h5" stroke="#ef4444" class="plug-spark" stroke-width="2" stroke-linecap="round"/>
+
+                    <defs>
+                        <linearGradient id="botGrad" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="#475569"/>
+                            <stop offset="1" stop-color="#1e293b"/>
+                        </linearGradient>
+                        <linearGradient id="botGrad2" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="#334155"/>
+                            <stop offset="1" stop-color="#0f172a"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <p class="reconnect-hint" id="reconnectHint">⚡ tap either plug to reconnect me</p>
+
+            <div class="status">
+                <span class="status-dot"></span>
+                System Offline
+            </div>
+
+            <div class="error-code"><span>404</span></div>
+
+            <h2>Node Disconnected</h2>
+            <p class="subtitle">
+                The neural pathway you requested is offline or does not exist inside the EkaDev mesh.
+            </p>
+
+            <div class="terminal" id="terminal"></div>
+
+            <div class="actions">
+                <a href="/" class="btn btn-primary">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                    Initialize Reroute
+                </a>
+                <a href="https://github.com/Abhiraj1121" class="btn btn-secondary" target="_blank" rel="noopener">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+                        <path d="M9 18c-4.51 2-5-2-7-2"/>
+                    </svg>
+                    GitHub Logs
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ─────────────────────────────────────────────
+        // 1. Terminal typing effect
+        // ─────────────────────────────────────────────
+        const lines = [
+            { html: `<span class="prompt">root@cognix-studio:~#</span> ping request_path` },
+            { html: `[SYS] Scanning mesh topology…` },
+            { html: `<span class="err">[ERR] Exception 404 — Node not found in registry.</span>` },
+            { html: `[SYS] Execution halted. Awaiting manual override.` }
+        ];
+
+        const terminal = document.getElementById('terminal');
+        let lineIndex = 0;
+
+        function typeNext() {
+            if (lineIndex >= lines.length) return;
+
+            const row = document.createElement('div');
+            row.className = 'terminal-line';
+            row.innerHTML = lines[lineIndex].html + '<span class="cursor"></span>';
+            terminal.appendChild(row);
+
+            // Remove previous cursor
+            const cursors = terminal.querySelectorAll('.cursor');
+            if (cursors.length > 1) cursors[0].remove();
+
+            lineIndex++;
+            setTimeout(typeNext, 520 + Math.random() * 380);
+        }
+
+        setTimeout(typeNext, 700);
+
+        // ─────────────────────────────────────────────
+        // 2. Interactive neural particle network
+        // ─────────────────────────────────────────────
+        const canvas = document.getElementById('network');
+        const ctx = canvas.getContext('2d');
+
+        let W, H, particles = [], mouse = { x: null, y: null, radius: 140 };
+
+        function resize() {
+            W = canvas.width = window.innerWidth;
+            H = canvas.height = window.innerHeight;
+            initParticles();
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * W;
+                this.y = Math.random() * H;
+                this.vx = (Math.random() - 0.5) * 0.55;
+                this.vy = (Math.random() - 0.5) * 0.55;
+                this.r = Math.random() * 1.8 + 0.8;
+                this.baseAlpha = Math.random() * 0.35 + 0.25;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > W) this.vx *= -1;
+                if (this.y < 0 || this.y > H) this.vy *= -1;
+
+                // Soft attraction / repulsion toward mouse
+                if (mouse.x !== null) {
+                    const dx = mouse.x - this.x;
+                    const dy = mouse.y - this.y;
+                    const dist = Math.hypot(dx, dy);
+
+                    if (dist < mouse.radius) {
+                        const force = (mouse.radius - dist) / mouse.radius;
+                        this.vx -= (dx / dist) * force * 0.04;
+                        this.vy -= (dy / dist) * force * 0.04;
+                    }
+                }
+
+                // Damping
+                this.vx *= 0.995;
+                this.vy *= 0.995;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(148, 163, 184, ${this.baseAlpha})`;
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.min(160, Math.max(45, Math.floor((W * H) / 14000)));
+            for (let i = 0; i < count; i++) particles.push(new Particle());
+        }
+
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.hypot(dx, dy);
+
+                    if (dist < 130) {
+                        const alpha = 0.22 - dist / 600;
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(59, 130, 246, ${alpha})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+
+                // Lines to mouse
+                if (mouse.x !== null) {
+                    const dx = particles[i].x - mouse.x;
+                    const dy = particles[i].y - mouse.y;
+                    const dist = Math.hypot(dx, dy);
+
+                    if (dist < mouse.radius) {
+                        const alpha = 0.35 * (1 - dist / mouse.radius);
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(96, 165, 250, ${alpha})`;
+                        ctx.lineWidth = 1.2;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, W, H);
+
+            for (const p of particles) {
+                p.update();
+                p.draw();
+            }
+            drawConnections();
+
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', e => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        window.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        // Touch support
+        window.addEventListener('touchmove', e => {
+            if (e.touches[0]) {
+                mouse.x = e.touches[0].clientX;
+                mouse.y = e.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        resize();
+        animate();
+
+        // ─────────────────────────────────────────────
+        // 3. 3D tilt / parallax on the card
+        // ─────────────────────────────────────────────
+        const scene = document.getElementById('scene');
+        const card = document.getElementById('card');
+
+        let targetRX = 0, targetRY = 0;
+        let currentRX = 0, currentRY = 0;
+
+        window.addEventListener('mousemove', e => {
+            const cx = window.innerWidth / 2;
+            const cy = window.innerHeight / 2;
+            const dx = (e.clientX - cx) / cx;
+            const dy = (e.clientY - cy) / cy;
+
+            targetRY = dx * 9;   // rotateY
+            targetRX = -dy * 7;  // rotateX
+        });
+
+        window.addEventListener('mouseleave', () => {
+            targetRX = 0;
+            targetRY = 0;
+        });
+
+        function tiltLoop() {
+            currentRX += (targetRX - currentRX) * 0.08;
+            currentRY += (targetRY - currentRY) * 0.08;
+
+            scene.style.transform = `rotateX(${currentRX}deg) rotateY(${currentRY}deg)`;
+            requestAnimationFrame(tiltLoop);
+        }
+        tiltLoop();
+
+        // ─────────────────────────────────────────────
+        // 4. Interactive plug reconnect
+        // ─────────────────────────────────────────────
+        const bot = document.getElementById('bot');
+        const plugMale = document.getElementById('plugMale');
+        const plugFemale = document.getElementById('plugFemale');
+        const botText = document.getElementById('botText');
+        const hint = document.getElementById('reconnectHint');
+        let fixed = false;
+
+        function reconnect() {
+            if (fixed) return;
+            fixed = true;
+            bot.classList.add('is-fixing');
+            botText.textContent = 'reconnecting...';
+            hint.textContent = '⚡ restoring link';
+
+            setTimeout(() => {
+                bot.classList.add('is-fixed');
+                botText.textContent = 'all better now!';
+                hint.textContent = '✓ connection restored';
+                hint.style.color = 'var(--green)';
+            }, 650);
+        }
+
+        plugMale.addEventListener('click', reconnect);
+        plugFemale.addEventListener('click', reconnect);
+        plugMale.addEventListener('touchstart', reconnect, { passive: true });
+        plugFemale.addEventListener('touchstart', reconnect, { passive: true });
+    </script>
+</body>
+</html>
